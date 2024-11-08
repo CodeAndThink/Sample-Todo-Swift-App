@@ -7,9 +7,11 @@
 //
 
 import Foundation
+import RxRelay
 
 class ToDoCellViewModel : CellViewModel {
     let note : Note
+    let onDoneTapped = PublishRelay<Note>()
     
     init(note: Note) {
         self.note = note
@@ -24,17 +26,7 @@ class ToDoCellViewModel : CellViewModel {
     
     // MARK: Public Functions
     
-    func changeNoteStatus() {
-        Application.shared.apiProvider
-            .updateNote(noteId: note.id!, status: !note.status)
-            .subscribe(
-                onSuccess: { status in
-                    
-                },
-                onError: { _ in
-                    
-                }
-            )
-            .disposed(by: disposeBag)
+    func handleCheckButtonAction() {
+        onDoneTapped.accept(note)
     }
 }

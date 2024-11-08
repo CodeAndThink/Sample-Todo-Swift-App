@@ -54,7 +54,9 @@ class SignUpViewModel: ViewModel {
             .trackActivity(loadingIndicator)
             .subscribe(onNext: { [weak self] token in
                 guard self != nil else { return }
-                self?.navigator.pushSignIn()
+                DispatchQueue.main.async {
+                    self?.navigator.pushSignIn()
+                }
             }, onError: {[weak self] error in
                 self?.navigator.showAlert(title: "Common.Error".localized(),
                                           message: "Login.Username.Password.Invalid".localized())

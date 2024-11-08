@@ -43,20 +43,34 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         setUpAlertController()
         
         setTextHolderTextView()
+        
+        setUpData()
     }
     
-    func setUpAppBar() {
+    private func setUpData(){
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        dateFormatter.dateStyle = .medium
+        taskTitleText.text = viewModel.note?.task_title
+        dateTitleText.text = dateFormatter.string(from: dateFormatter.date(from: viewModel.note?.date ?? "") ?? Date())
+        timeTitleText.text = viewModel.note?.time
+        cateSelected = viewModel.note?.category ?? 0
+        noteText.text = viewModel.note?.content
+        
+        updateButtonAlpha()
+    }
+    
+    private func setUpAppBar() {
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-    func setUpDateTimePicker () {
+    private func setUpDateTimePicker () {
         datePickerButton.setImage(UIImage(named: "ic_datepicker"), for: .normal)
         datePickerButton.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         let datePickerButtonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         datePickerButtonContainer.addSubview(datePickerButton)
         datePickerButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
-        datePickerButton.layer.cornerRadius = 50
-        datePickerButton.backgroundColor = UIColor.white
+        datePickerButton.backgroundColor = UIColor.clear
         datePickerButton.tintColor = UIColor.black
         
         timePickerButton.setImage(UIImage(named: "ic_timepicker"), for: .normal)
@@ -64,8 +78,7 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         let timePickerButtonContainer = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         timePickerButtonContainer.addSubview(timePickerButton)
         timePickerButton.addTarget(self, action: #selector(showTimePicker), for: .touchUpInside)
-        timePickerButton.layer.cornerRadius = 50
-        timePickerButton.backgroundColor = UIColor.white
+        timePickerButton.backgroundColor = UIColor.clear
         timePickerButton.tintColor = UIColor.black
         
         dateTitleText.rightView = datePickerButtonContainer
@@ -90,7 +103,7 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         datePicker.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func setUpAlertController () {
+    private func setUpAlertController () {
         timePickerAlertController.view.addSubview(timePicker)
         timePicker.isHidden = false
         
@@ -99,11 +112,11 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         
         NSLayoutConstraint.activate([
             datePicker.centerXAnchor.constraint(equalTo: datePickerAlertController.view.centerXAnchor),
-            datePickerAlertController.view.heightAnchor.constraint(equalToConstant: 500),
+            datePickerAlertController.view.heightAnchor.constraint(equalToConstant: 480),
             datePicker.bottomAnchor.constraint(equalTo: datePickerAlertController.view.centerYAnchor, constant: 120),
             
             timePicker.centerXAnchor.constraint(equalTo: timePickerAlertController.view.centerXAnchor),
-            timePickerAlertController.view.heightAnchor.constraint(equalToConstant: 400),
+            timePickerAlertController.view.heightAnchor.constraint(equalToConstant: 380),
             timePicker.bottomAnchor.constraint(equalTo: timePickerAlertController.view.centerYAnchor, constant: 70)
         ])
         
@@ -122,21 +135,21 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         timePickerAlertController.addAction(timeCancelAction)
     }
     
-    @objc func showDatePicker() {
+    @objc private func showDatePicker() {
         present(datePickerAlertController, animated: true, completion: nil)
     }
     
-    @objc func showTimePicker() {
+    @objc private func showTimePicker() {
         present(timePickerAlertController, animated: true, completion: nil)
     }
     
-    @objc func timeChanged() {
+    @objc private func timeChanged() {
         let formatter = DateFormatter()
         formatter.dateFormat = Configs.DateFormart.time
         timeTitleText.text = formatter.string(from: timePicker.date)
     }
     
-    @objc func dateChanged() {
+    @objc private func dateChanged() {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         dateTitleText.text = formatter.string(from: datePicker.date)
@@ -150,7 +163,11 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         
         saveButton.rx.tap.bind { [weak self] () in
             guard let self = self else { return }
-            createNewNote()
+            if viewModel.note != nil {
+//                viewModel.updateCurrentNote(oldNote: prepareNewNote())
+            } else {
+                createNewNote()
+            }
         }.disposed(by: disposeBag)
         
         noteCateButton.rx.tap.bind {[weak self] () in
@@ -208,7 +225,9 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
     }
 
     private func prepareNewNote () -> Note {
-        let newNote: Note = Note(id: nil, device_id: nil, task_title: taskTitleText.text!, category: cateSelected, content: noteText.text, status: false, date: dateTitleText.text!, time: timeTitleText.text ?? nil)
+        let time: String? = timeTitleText.text?.isEmpty == true ? nil : timeTitleText.text
+        let content : String? = noteText.text == "Notes" ? nil : noteText.text
+        let newNote: Note = Note(id: nil, device_id: nil, task_title: taskTitleText.text!, category: cateSelected, content: content, status: false, date: dateTitleText.text!, time: time)
         return newNote
     }
 }

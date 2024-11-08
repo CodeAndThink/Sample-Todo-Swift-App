@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import RxRelay
 import MBProgressHUD
+import RxCocoa
 
 class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
     @IBOutlet weak var currentDateLabel: UILabel!
@@ -21,7 +22,6 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.reloadData()
-        viewModel.listenDataChange()
     }
 
     override func setupUI() {
@@ -47,6 +47,7 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
         super.setupListener()
         
         setUpListenerToDoTable()
+        
         setUpListenerDoneTable()
         
         viewModel.loadingIndicator.asObservable().bind(to: isLoading).disposed(by: disposeBag)
@@ -74,12 +75,25 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
         viewModel.todoCellVMs.asDriver(onErrorJustReturn: [])
             .drive(self.ToDoTableView.rx.items(cellIdentifier: ToDoTableViewCell.className, cellType: ToDoTableViewCell.self)) { tableView, viewModel, cell in
                 cell.bind(viewModel: viewModel)
+                viewModel.onDoneTapped.bind { note in
+                    self.viewModel.UpdateNoteStatus(currentNote: note)
+                }.disposed(by: cell.disposeBag)
             }.disposed(by: self.disposeBag)
         
         ToDoTableView.rx.modelSelected(ToDoCellViewModel.self).bind { [weak self] cellVM in
             guard let self = self else { return }
-            self.viewModel.handleItemTapped(cellVM: cellVM)
+            
+            self.viewModel.handleViewDetail(note: cellVM.note)
+            print(cellVM.note.content)
         }.disposed(by: disposeBag)
+        
+        
+        ToDoTableView.rx.itemDeleted
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                self.viewModel.deleteData(index: indexPath[1], tableType: false)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func setUpListenerDoneTable(){
@@ -96,11 +110,23 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
         viewModel.doneCellVMs.asDriver(onErrorJustReturn: [])
             .drive(self.DoneTableView.rx.items(cellIdentifier: ToDoTableViewCell.className, cellType: ToDoTableViewCell.self)) { tableView, viewModel, cell in
                 cell.bind(viewModel: viewModel)
+                
+                viewModel.onDoneTapped.bind { note in
+                    self.viewModel.UpdateNoteStatus(currentNote: note)
+                }.disposed(by: cell.disposeBag)
             }.disposed(by: self.disposeBag)
         
         DoneTableView.rx.modelSelected(ToDoCellViewModel.self).bind { [weak self] cellVM in
             guard let self = self else { return }
-            self.viewModel.handleItemTapped(cellVM: cellVM)
+            
+            self.viewModel.handleViewDetail(note: cellVM.note)
         }.disposed(by: disposeBag)
+        
+        DoneTableView.rx.itemDeleted
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let self = self else { return }
+                self.viewModel.deleteData(index: indexPath[1], tableType: true)
+            })
+            .disposed(by: disposeBag)
     }
 }

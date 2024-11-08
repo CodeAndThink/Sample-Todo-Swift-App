@@ -84,33 +84,6 @@ struct ApiProvider {
         }
     }
     
-    func dataUpdateListener() -> Observable<Note> {
-        return Observable.create { obser in
-            let channel = supabaseProvider.realtimeV2.channel("Notes")
-            let updations = channel.postgresChange(UpdateAction.self, schema: "public", table: "Notes")
-            
-            let task = Task {
-                    do {
-                        await channel.subscribe()
-                        
-                        for await updation in updations  {
-                            print(updation.rawMessage)
-                            let data : Note = try updation.record.decode(as: Note.self, decoder: JSONDecoder())
-                            obser.onNext(data)
-                        }
-                        await channel.unsubscribe()
-                    } catch {
-                        print("Listen error")
-                    }
-                }
-            
-            return Disposables.create {
-                task.cancel()
-                
-            }
-        }
-    }
-    
     func fetchNotesForUser() -> Single<[Note]> {
         return Single.create { single in
             let task = Task {
@@ -134,7 +107,6 @@ struct ApiProvider {
         }
     }
     
-    
     func createNote(newNote: Note) -> Single<String> {
         return Single.create { single in
             let task = Task {
@@ -144,7 +116,6 @@ struct ApiProvider {
                         .from("Notes")
                         .insert(newNote)
                         .execute()
-                    print(response.status)
                     guard response.status < 300 else {
                         single(.error(NSError(domain: "CreateError", code: response.status, userInfo: [NSLocalizedDescriptionKey: "Failed to create note."])))
                         return
@@ -184,7 +155,7 @@ struct ApiProvider {
         }
     }
     
-    func updateNote(noteId: Int, status: Bool) -> Single<String> {
+    func updateNoteStatus(noteId: Int, status: Bool) -> Single<String> {
         return Single.create { single in
             let task = Task {
                 do {
@@ -202,6 +173,32 @@ struct ApiProvider {
                     }
                     single(.success("Update note successfully!"))
                 } catch {
+                    single(.error(NSError(domain: "UpdateError", code: -3, userInfo: [NSLocalizedDescriptionKey: "Failed to update note."])))
+                }
+            }
+            return Disposables.create{
+                task.cancel()
+            }
+        }
+    }
+    
+    func updateNote(newNote : Note) -> Single<String> {
+        return Single.create { single in
+            let task = Task {
+                do {
+                    print(newNote.toDictionary())
+                    let response = try await supabaseProvider
+                        .from("Notes")
+                        .update(newNote)
+                        .eq("id", value: newNote.id)
+                        .execute()
+                    guard response.status < 300 else {
+                        single(.error(NSError(domain: "UpdateError", code: response.status, userInfo: [NSLocalizedDescriptionKey: "Failed to update note."])))
+                        return
+                    }
+                    single(.success("Update note successfully!"))
+                } catch {
+                    print(error)
                     single(.error(NSError(domain: "UpdateError", code: -3, userInfo: [NSLocalizedDescriptionKey: "Failed to update note."])))
                 }
             }

@@ -13,9 +13,11 @@ class NoteDetailViewModel : ViewModel {
     
     // MARK: Private Properties
     private let navigator: NoteDetailNavigator
+    let note : Note?
     
-    init(navigator: NoteDetailNavigator) {
+    init(navigator: NoteDetailNavigator, note : Note?) {
         self.navigator = navigator
+        self.note = note
         super.init(navigator: navigator)
     }
     
@@ -46,6 +48,27 @@ class NoteDetailViewModel : ViewModel {
                 }
             )
             .disposed(by: disposeBag)    }
+    
+    func updateCurrentNote(oldNote : Note) {
+        Application.shared.apiProvider
+            .updateNote(newNote: oldNote)
+            .trackActivity(ActivityIndicator())
+            .subscribe(
+                onNext: { message in
+                    DispatchQueue.main.async {
+                        self.navigator.pushHome()
+                    }
+                },
+                onError: { [weak self] error in
+                    DispatchQueue.main.async {
+                        self?.navigator.showAlert(title: "Error",
+                                                  message: error.localizedDescription)
+                    }
+                    
+                }
+            )
+            .disposed(by: disposeBag)
+    }
     
     // MARK: Private Function
 }

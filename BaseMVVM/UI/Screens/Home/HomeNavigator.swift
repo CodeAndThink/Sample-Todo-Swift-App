@@ -13,7 +13,7 @@ class HomeNavigator: Navigator {
     func pushAddNewTask() {
         let viewController = NoteDetailViewController(nibName: NoteDetailViewController.className, bundle: nil)
         let navigator = NoteDetailNavigator(with: viewController)
-        let viewModel = NoteDetailViewModel(navigator: navigator)
+        let viewModel = NoteDetailViewModel(navigator: navigator, note: nil)
         viewController.viewModel = viewModel
         CATransaction.begin()
         CATransaction.setCompletionBlock { [weak self] () in
@@ -27,6 +27,18 @@ class HomeNavigator: Navigator {
     }
     
     func pushDetail(data: Note) {
-        log.info("Should open detail screen")
+        let viewController = NoteDetailViewController(nibName: NoteDetailViewController.className, bundle: nil)
+        let navigator = NoteDetailNavigator(with: viewController)
+        let viewModel = NoteDetailViewModel(navigator: navigator, note: data)
+        viewController.viewModel = viewModel
+        CATransaction.begin()
+        CATransaction.setCompletionBlock { [weak self] () in
+            guard let self = self else { return }
+            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                self.navigationController?.viewControllers.removeSubrange(0..<count - 1 )
+            }
+        }
+        navigationController?.pushViewController(viewController, animated: true)
+        CATransaction.commit()
     }
 }

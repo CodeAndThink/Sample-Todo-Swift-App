@@ -9,17 +9,17 @@
 import Foundation
 import ObjectMapper
 
-class Note : Decodable, Encodable {
+class Note : Codable {
     var id : Int?
     var device_id: String?
     var task_title : String
     var category : Int
-    var content : String
+    var content : String?
     var status : Bool
     var date : String
     var time : String?
     
-    init(id: Int? = nil, device_id: String?, task_title: String, category: Int, content: String, status: Bool, date: String, time: String? = nil) {
+    init(id: Int? = nil, device_id: String?, task_title: String, category: Int, content: String?, status: Bool, date: String, time: String? = nil) {
         self.id = id
         self.device_id = device_id
         self.task_title = task_title
@@ -28,5 +28,11 @@ class Note : Decodable, Encodable {
         self.status = status
         self.date = date
         self.time = time
+    }
+    
+    func toDictionary() -> [String: Any]? {
+        let encoder = JSONEncoder()
+        guard let data = try? encoder.encode(self) else { return nil }
+        return (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any]
     }
 }

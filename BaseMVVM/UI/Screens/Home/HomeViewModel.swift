@@ -47,6 +47,10 @@ class HomeViewModel: ViewModel {
         navigator.pushAddNewTask()
     }
     
+    func handleViewDetail(note: Note) {
+        navigator.pushDetail(data: note)
+    }
+    
     func handleItemTapped(cellVM: ToDoCellViewModel) {
         navigator.pushDetail(data: cellVM.note)
     }
@@ -55,32 +59,21 @@ class HomeViewModel: ViewModel {
         fetchNotes()
     }
     
+    func deleteData(index : Int, tableType : Bool) {
+        if tableType {
+            deleteNote(noteId: self.doneCellVMs.value[index].note.id!, noteIndex: index)
+        } else {
+            deleteNote(noteId: self.todoCellVMs.value[index].note.id!, noteIndex: index)
+        }
+    }
+    
     func logout() {
         AuthManager.shared.token = nil
         UserManager.shared.removeUser()
         Application.shared.presentInitialScreen(in: appDelegate.window)
     }
     
-    func listenDataChange() {
-        Application.shared.apiProvider.dataUpdateListener()
-            .subscribe(
-                onNext: { newNote in
-                    let updatedNotes = self.notes.value.map { note -> Note in
-                        let mutableNote = note
-                        if note.id == newNote.id {
-                            mutableNote.status = newNote.status
-                        }
-                        return mutableNote
-                    }
-                    self.notes.accept(updatedNotes)
-                },
-                onError: { [weak self] error in
-                    self?.navigator.showAlert(title: "UpdateError",
-                                              message: error.localizedDescription)
-                }
-            )
-            .disposed(by: disposeBag)
-    }
+    
     
     // MARK: Private Function
     
@@ -90,6 +83,44 @@ class HomeViewModel: ViewModel {
             .subscribe(
                 onNext: { notesData in
                     self.notes.accept(notesData)
+                },
+                onError: { [weak self] error in
+                    self?.navigator.showAlert(title: "Error",
+                                              message: error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    func UpdateNoteStatus(currentNote: Note) {
+        Application.shared.apiProvider
+            .updateNoteStatus(noteId: currentNote.id!, status: !currentNote.status)
+            .subscribe(
+                onSuccess: { status in
+                    let newNotes = self.notes.value.map { note -> Note in
+                    let mutableNote = note
+                    if note.id == currentNote.id {
+                        mutableNote.status = !mutableNote.status
+                    }
+                    return mutableNote
+                }
+                self.notes.accept(newNotes)
+                },
+                onError: { [weak self] error in
+                    self?.navigator.showAlert(title: "Error",
+                                              message: error.localizedDescription)
+                }
+            )
+            .disposed(by: disposeBag)
+    }
+    
+    private func deleteNote(noteId : Int, noteIndex : Int) {
+        Application.shared.apiProvider.deleteNote(noteId: noteId)
+            .subscribe(
+                onSuccess: { _ in
+                    var newNotes = self.notes.value
+                    newNotes.remove(at: noteIndex)
+                    self.notes.accept(newNotes)
                 },
                 onError: { [weak self] error in
                     self?.navigator.showAlert(title: "Error",

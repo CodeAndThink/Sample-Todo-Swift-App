@@ -13,15 +13,14 @@ import Moya
 import Alamofire
 
 enum ApiService {
-    
     // MARK: - Authentication
     case login(username: String, password: String)
     case register(username: String, password: String)
     // MARK: - Profile
     case getProfile
     // MARK: - CRUD Data
-    case createNote
-    case getNotes
-    case deleteNote
-    case updateNote
+    case createNote(newNote : Note)
+    case fetchNotesForUser
+    case deleteNote(noteId : Int)
+    case updateNote(noteId: Int, status: Bool)
 }
