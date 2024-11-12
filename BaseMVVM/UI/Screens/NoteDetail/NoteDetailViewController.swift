@@ -47,10 +47,12 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         setTextHolderTextView()
         
         setUpData()
+        
+        noteText.delegate = self
     }
     
     private func setUpNoteContent(){
-        noteText.delegate = self
+        
         noteText.text = "Notes"
         noteText.textColor = UIColor.lightGray
     }
@@ -159,7 +161,7 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
     
     @objc private func dateChanged() {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
+        formatter.dateStyle = .medium
         dateTitleText.text = formatter.string(from: datePicker.date)
     }
     
