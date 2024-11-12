@@ -12,9 +12,10 @@ import RxSwift
 import RxCocoa
 class ToDoTableViewCell : TableViewCell {
     
-    @IBOutlet private weak var cateIconImage: UIImageView!
-    @IBOutlet private weak var taskTitleLabel: UILabel!
-    @IBOutlet private weak var dateTimeLabel: UILabel!
+    @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var cateIconImage: UIImageView!
+    @IBOutlet weak var taskTitleLabel: UILabel!
+    @IBOutlet weak var dateTimeLabel: UILabel!
     @IBOutlet weak var checkBoxButton: UIButton!
 
     private let listCateIcon : [String] = ["ic_note_white", "ic_calendal_white", "ic_archive_white"]
@@ -100,8 +101,15 @@ class ToDoTableViewCell : TableViewCell {
             .bind(to: dateTimeLabel.rx.attributedText)
             .disposed(by: disposeBag)
         
-        checkBoxButton.rx.tap.bind { _ in
-            viewModel.handleCheckButtonAction()
-        }.disposed(by: disposeBag)
+        viewModel.status
+            .map { status -> CGFloat in
+                return status! ? 0.5 : 1.0
+            }
+            .bind(to: cellView.rx.alpha)
+            .disposed(by: disposeBag)
+        
+//        checkBoxButton.rx.tap.bind { _ in
+//            viewModel.handleCheckButtonAction()
+//        }.disposed(by: disposeBag)
     }
 }

@@ -36,7 +36,7 @@
 "Pick.Image.None_Permision.Message" = "Open \"Setting\" and provide permission";
 
 /* Navigation */
-"Navigation.Title" = "MVVM Demo";
+"Navigation.Title" = "Sample to do app";
 
 /* Login */
 "Login.Username.Empty" = "Chưa nhập tên đăng nhập";

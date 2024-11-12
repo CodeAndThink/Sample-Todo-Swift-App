@@ -9,14 +9,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="A6U-xz-jxj" customClass="ToDoTableViewCell" customModule="BaseMVVM" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="358" height="80"/>
-            <autoresizingMask key="autoresizingMask"/>
+            <rect key="frame" x="0.0" y="0.0" width="370" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="A6U-xz-jxj" id="Srr-Bs-sDU">
-                <rect key="frame" x="0.0" y="0.0" width="358" height="80"/>
+                <rect key="frame" x="0.0" y="0.0" width="370" height="80"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u8j-Ft-HQd">
-                        <rect key="frame" x="318" y="28" width="24" height="24"/>
+                        <rect key="frame" x="330" y="28" width="24" height="24"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="24" id="7H3-rQ-UUD"/>
@@ -74,6 +74,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="cateIconImage" destination="aJE-ug-hah" id="RQ8-1G-pFm"/>
+                <outlet property="cellView" destination="Srr-Bs-sDU" id="aW8-wi-FzD"/>
                 <outlet property="checkBoxButton" destination="u8j-Ft-HQd" id="Xpi-XW-VFv"/>
                 <outlet property="dateTimeLabel" destination="vvh-l8-Nis" id="RD3-he-gSx"/>
                 <outlet property="taskTitleLabel" destination="WrB-bJ-APX" id="FRJ-fA-uf2"/>

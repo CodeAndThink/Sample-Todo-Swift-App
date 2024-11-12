@@ -10,8 +10,8 @@ import Foundation
 import RxRelay
 
 class ToDoCellViewModel : CellViewModel {
+    //MARK: Public Properties
     let note : Note
-    let onDoneTapped = PublishRelay<Note>()
     
     init(note: Note) {
         self.note = note
@@ -25,8 +25,4 @@ class ToDoCellViewModel : CellViewModel {
     }
     
     // MARK: Public Functions
-    
-    func handleCheckButtonAction() {
-        onDoneTapped.accept(note)
-    }
 }

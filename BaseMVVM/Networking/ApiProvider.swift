@@ -186,12 +186,12 @@ struct ApiProvider {
         return Single.create { single in
             let task = Task {
                 do {
-                    print(newNote.toDictionary())
                     let response = try await supabaseProvider
                         .from("Notes")
                         .update(newNote)
                         .eq("id", value: newNote.id)
                         .execute()
+                    print(response.value)
                     guard response.status < 300 else {
                         single(.error(NSError(domain: "UpdateError", code: response.status, userInfo: [NSLocalizedDescriptionKey: "Failed to update note."])))
                         return

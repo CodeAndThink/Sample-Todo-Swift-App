@@ -22,8 +22,8 @@ class SignInViewController: ViewController<SignInViewModel, SignInNavigator> {
     
     override func setupUI() {
         super.setupUI()
-        usernameTextField.text = "TesterTodoApp@gmail.com"
-        passwordTextField.text = "Test123456@"
+        
+        setTitle("Navigation.Title".localized(), subTitle: "Sign In")
     }
     
     override func setupListener() {

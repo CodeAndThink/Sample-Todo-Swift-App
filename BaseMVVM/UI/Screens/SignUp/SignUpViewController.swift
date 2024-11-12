@@ -22,10 +22,8 @@ class SignUpViewController: ViewController<SignUpViewModel, SignUpNavigator> {
     
     override func setupUI() {
         super.setupUI()
-        setTitle("Navigation.Title".localized(), subTitle: "Newwave solution CSJ")
+        setTitle("Navigation.Title".localized(), subTitle: "Sign Up")
         showLeftButton()
-        usernameTextField.text = "TesterTodoApp@gmail.com"
-        passwordTextField.text = "Test123456@"
     }
     
     override func setupListener() {

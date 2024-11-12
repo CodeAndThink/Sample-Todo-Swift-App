@@ -10,10 +10,10 @@ import Foundation
 
 class NoteDetailViewModel : ViewModel {
     // MARK: Public Properties
+    let note : Note?
     
     // MARK: Private Properties
     private let navigator: NoteDetailNavigator
-    let note : Note?
     
     init(navigator: NoteDetailNavigator, note : Note?) {
         self.navigator = navigator
@@ -55,8 +55,11 @@ class NoteDetailViewModel : ViewModel {
             .trackActivity(ActivityIndicator())
             .subscribe(
                 onNext: { message in
+                    
                     DispatchQueue.main.async {
                         self.navigator.pushHome()
+                        self.navigator.showAlert(title: "Success",
+                                                  message: "Update success!")
                     }
                 },
                 onError: { [weak self] error in
@@ -68,6 +71,7 @@ class NoteDetailViewModel : ViewModel {
                 }
             )
             .disposed(by: disposeBag)
+//        self.navigator.showAlert(title: "From Dev", message: "Upcomming!")
     }
     
     // MARK: Private Function

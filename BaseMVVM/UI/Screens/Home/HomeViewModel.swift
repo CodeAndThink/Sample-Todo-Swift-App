@@ -12,10 +12,12 @@ import RxCocoa
 
 class HomeViewModel: ViewModel {
     // MARK: Public Properties
+    
     let todoCellVMs = BehaviorRelay<[ToDoCellViewModel]>(value: [])
     let doneCellVMs = BehaviorRelay<[ToDoCellViewModel]>(value: [])
     
     // MARK: Private Properties
+    
     private let navigator: HomeNavigator
     private let notes = BehaviorRelay<[Note]>(value: [])
     
@@ -59,11 +61,19 @@ class HomeViewModel: ViewModel {
         fetchNotes()
     }
     
-    func deleteData(index : Int, tableType : Bool) {
-        if tableType {
-            deleteNote(noteId: self.doneCellVMs.value[index].note.id!, noteIndex: index)
-        } else {
+    func updateData(index : Int, type : Int) {
+        if type == 0 {
+            self.updateNoteStatus(currentNote: self.todoCellVMs.value[index].note)
+        } else{
+            self.updateNoteStatus(currentNote: self.doneCellVMs.value[index].note)
+        }
+    }
+    
+    func deleteData(index : Int, type : Int) {
+        if type == 0 {
             deleteNote(noteId: self.todoCellVMs.value[index].note.id!, noteIndex: index)
+        } else{
+            deleteNote(noteId: self.doneCellVMs.value[index].note.id!, noteIndex: index)
         }
     }
     
@@ -72,8 +82,6 @@ class HomeViewModel: ViewModel {
         UserManager.shared.removeUser()
         Application.shared.presentInitialScreen(in: appDelegate.window)
     }
-    
-    
     
     // MARK: Private Function
     
@@ -85,14 +93,16 @@ class HomeViewModel: ViewModel {
                     self.notes.accept(notesData)
                 },
                 onError: { [weak self] error in
-                    self?.navigator.showAlert(title: "Error",
-                                              message: error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self?.navigator.showAlert(title: "Error",
+                                                  message: error.localizedDescription)
+                    }
                 }
             )
             .disposed(by: disposeBag)
     }
     
-    func UpdateNoteStatus(currentNote: Note) {
+    private func updateNoteStatus(currentNote: Note) {
         Application.shared.apiProvider
             .updateNoteStatus(noteId: currentNote.id!, status: !currentNote.status)
             .subscribe(
@@ -107,8 +117,10 @@ class HomeViewModel: ViewModel {
                 self.notes.accept(newNotes)
                 },
                 onError: { [weak self] error in
-                    self?.navigator.showAlert(title: "Error",
-                                              message: error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self?.navigator.showAlert(title: "Error",
+                                                  message: error.localizedDescription)
+                    }
                 }
             )
             .disposed(by: disposeBag)
@@ -123,8 +135,10 @@ class HomeViewModel: ViewModel {
                     self.notes.accept(newNotes)
                 },
                 onError: { [weak self] error in
-                    self?.navigator.showAlert(title: "Error",
-                                              message: error.localizedDescription)
+                    DispatchQueue.main.async {
+                        self?.navigator.showAlert(title: "Error",
+                                                  message: error.localizedDescription)
+                    }
                 }
             )
             .disposed(by: disposeBag)

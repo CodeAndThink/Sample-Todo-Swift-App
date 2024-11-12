@@ -18,6 +18,8 @@ def shared_pods
   # Reactive
   #pod 'RxSwift'
   pod 'RxCocoa'
+  #pod 'RxDataSource'
+  pod 'RxDataSources'
   # Auto Layout
   pod 'SnapKit'
   # Dialog

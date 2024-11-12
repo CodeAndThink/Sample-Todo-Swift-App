@@ -33,7 +33,7 @@ enum Keys {
 struct Configs {
 
     struct App {
-        static let bundleIdentifier = "thoson.it"
+        static let bundleIdentifier = "truongngo"
     }
 
     struct Network {

@@ -19,7 +19,7 @@ class Note : Codable {
     var date : String
     var time : String?
     
-    init(id: Int? = nil, device_id: String?, task_title: String, category: Int, content: String?, status: Bool, date: String, time: String? = nil) {
+    init(id: Int?, device_id: String?, task_title: String, category: Int, content: String?, status: Bool, date: String, time: String?) {
         self.id = id
         self.device_id = device_id
         self.task_title = task_title
@@ -28,11 +28,5 @@ class Note : Codable {
         self.status = status
         self.date = date
         self.time = time
-    }
-    
-    func toDictionary() -> [String: Any]? {
-        let encoder = JSONEncoder()
-        guard let data = try? encoder.encode(self) else { return nil }
-        return (try? JSONSerialization.jsonObject(with: data, options: [])) as? [String: Any]
     }
 }
