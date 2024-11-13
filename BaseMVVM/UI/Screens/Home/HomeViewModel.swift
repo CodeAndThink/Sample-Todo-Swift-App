@@ -71,9 +71,9 @@ class HomeViewModel: ViewModel {
     
     func deleteData(index : Int, type : Int) {
         if type == 0 {
-            deleteNote(noteId: self.todoCellVMs.value[index].note.id!, noteIndex: index)
+            deleteNote(noteId: self.todoCellVMs.value[index].note.id!)
         } else{
-            deleteNote(noteId: self.doneCellVMs.value[index].note.id!, noteIndex: index)
+            deleteNote(noteId: self.doneCellVMs.value[index].note.id!)
         }
     }
     
@@ -126,12 +126,14 @@ class HomeViewModel: ViewModel {
             .disposed(by: disposeBag)
     }
     
-    private func deleteNote(noteId : Int, noteIndex : Int) {
+    private func deleteNote(noteId : Int) {
         Application.shared.apiProvider.deleteNote(noteId: noteId)
             .subscribe(
                 onSuccess: { _ in
-                    var newNotes = self.notes.value
-                    newNotes.remove(at: noteIndex)
+                    let newNotes = self.notes.value.filter { note in
+                        return note.id != noteId
+                    }
+                
                     self.notes.accept(newNotes)
                 },
                 onError: { [weak self] error in

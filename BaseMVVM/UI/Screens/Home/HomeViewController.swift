@@ -17,24 +17,69 @@ import RxDataSources
 class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
     @IBOutlet private weak var currentDateLabel: UILabel!
     @IBOutlet private weak var addNewTaskButton: UIButton!
-    @IBOutlet private weak var signoutButton: UIButton!
     @IBOutlet private weak var ToDoTableView: UITableView!
+    @IBOutlet weak var homeTitle: UILabel!
+    
+    @IBOutlet weak var menuButton: UIButton!
+    
+    private var isLoaded = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ToDoTableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.reloadData()
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func setupUI() {
         super.setupUI()
-        
-        navigationController?.setNavigationBarHidden(true, animated: false)
         
         currentDateLabel.text = updateCurrentDate()
         
         ToDoTableView.register(nibWithCellClass: ToDoTableViewCell.self)
         ToDoTableView.sectionHeaderTopPadding = 0
         ToDoTableView.sectionHeaderHeight = 67
+        
+        menuButton.menu = createMenu()
+        menuButton.showsMenuAsPrimaryAction = true
+    }
+    
+    private func createMenu() -> UIMenu {
+        let action1 = UIAction(title: "Home.MenuButton.Logout".translated(), image: UIImage(named: "ic_logout"), handler: { _ in
+            self.viewModel.logout()
+        })
+        let action2 = UIAction(title: "Home.MenuButton.Language".translated(), image: UIImage(named: "ic_lang"), handler: { [self] _ in
+            self.changeLanguageAction()
+        })
+        return UIMenu(title: "Choose an Option".translated(), children: [action1, action2])
+    }
+    
+    private func changeLanguageAction () {
+        if LocalizeDefaultLanguage == "en" {
+            LocalizeDefaultLanguage = "vi"
+        } else {
+            LocalizeDefaultLanguage = "en"
+        }
+        
+        UserDefaults.standard.set(LocalizeDefaultLanguage, forKey: LocalizeUserDefaultKey)
+        UserDefaults.standard.synchronize()
+        
+        languageChanged()
+        
+        viewWillAppear(true)
+    }
+    
+    @objc func languageChanged() {
+        currentDateLabel.text = updateCurrentDate()
+        homeTitle.text = "Home.Title".translated()
+        addNewTaskButton.setTitle("Home.NewTaskButtonTitle".translated(), for: .normal)
+        menuButton.menu = createMenu()
+        
     }
     
     override func setupListener() {
@@ -47,28 +92,22 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
         addNewTaskButton.rx.tap.bind { [weak self] () in
             self?.viewModel.handleAddNewTaskButtonTap()
         }.disposed(by: disposeBag)
-        
-        signoutButton.rx.tap.bind {[weak self] () in
-            self?.viewModel.logout()
-        }.disposed(by: disposeBag)
     }
     
     private func updateCurrentDate() -> String {
         let currentDate = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMMM dd, yyyy"
-        return dateFormatter.string(from: currentDate)
+        dateFormatter.dateStyle = .long
+        dateFormatter.locale = Locale(identifier: LocalizeDefaultLanguage)
+        return dateFormatter.string(from: currentDate).localizedCapitalized
     }
     
     private func setUpListenerToDoTable(){
-        ToDoTableView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
-        
         ToDoTableView.rx.prefetchRows.subscribe(onNext: {[weak self] indexPaths in
             guard let self = self else { return }
             let count = self.viewModel.todoCellVMs.value.count
             if indexPaths.contains(where: { (indexPath) -> Bool in
-                return count == indexPath.row + 1
+                return count == indexPath.row + 3
             }) {
                 viewModel.reloadData()
             }
@@ -77,7 +116,7 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
         let sections = Observable.combineLatest(viewModel.todoCellVMs, viewModel.doneCellVMs) { todoItems, doneItems in
             return [
                 SectionOfItems(header: "", items: todoItems),
-                SectionOfItems(header: "Completed", items: doneItems)
+                SectionOfItems(header: "Home.SectionTitle".translated(), items: doneItems)
             ]
         }
         
@@ -86,7 +125,15 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
                 let cell = tableView.dequeueReusableCell(withClass: ToDoTableViewCell.self, for: indexPath)
                 cell.bind(viewModel: item)
                 cell.checkBoxButton.rx.tap.bind {
-                    self.viewModel.updateData(index: indexPath[1], type: indexPath[0])
+                    cell.alpha = 1
+                    UIView.animate(withDuration: 0.5, animations: {
+                        cell.alpha = 0
+                        cell.transform = CGAffineTransform(scaleX: 1, y: 0.5)
+                    }, completion: { _ in
+                        self.viewModel.updateData(index: indexPath[1], type: indexPath[0])
+                        
+                        cell.transform = .identity
+                    })
                 }.disposed(by: cell.disposeBag)
                 
                 return cell
@@ -111,17 +158,11 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
             
             self.viewModel.handleViewDetail(note: cellVM.note)
         }.disposed(by: disposeBag)
-        
-        ToDoTableView.rx.itemDeleted
-            .subscribe(onNext: { [weak self] indexPath in
-                guard let self = self else { return }
-                self.viewModel.deleteData(index: indexPath[1], type: indexPath[0])
-            })
-            .disposed(by: disposeBag)
     }
 }
 
-extension HomeViewController : UITableViewDelegate{
+extension HomeViewController : UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if tableView.numberOfRows(inSection: indexPath.section) == 1 {
             setAllCorner()
@@ -135,6 +176,15 @@ extension HomeViewController : UITableViewDelegate{
             }
         }
         
+        if isLoaded == false {
+            cell.transform = CGAffineTransform(translationX: 0, y: tableView.bounds.size.height)
+            UIView.animate(withDuration: 0.5, delay: 0.05 * Double(indexPath.row), options: .curveEaseInOut, animations: {
+                cell.transform = .identity
+            }, completion: { _ in
+                self.isLoaded = true
+            })
+        }
+                
         func setTopCorners() {
             let maskPath = UIBezierPath(roundedRect: cell.bounds,
                                         byRoundingCorners: [.topLeft, .topRight],
@@ -176,5 +226,23 @@ extension HomeViewController : UITableViewDelegate{
         guard let header = view as? UITableViewHeaderFooterView else { return }
         header.textLabel?.textColor = UIColor(named: "textColor")
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
+                guard let self = self else { return }
+                if let cell = tableView.cellForRow(at: indexPath) {
+                    cell.alpha = 1
+                    UIView.animate(withDuration: 0.5, animations: {
+                        cell.alpha = 0
+                    }, completion: { _ in
+                        self.viewModel.deleteData(index: indexPath[1], type: indexPath[0])
+                    })
+                }
+                completionHandler(true)
+        }
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        configuration.performsFirstActionWithFullSwipe = true
+        return configuration
+    }
 }
-

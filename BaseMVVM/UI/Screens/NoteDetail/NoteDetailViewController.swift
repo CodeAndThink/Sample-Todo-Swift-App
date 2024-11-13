@@ -9,11 +9,17 @@ import Foundation
 import UIKit
 
 class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailNavigator> {
+    @IBOutlet weak var screenLabel: UILabel!
+    @IBOutlet weak var taskTitleLabel: UILabel!
     @IBOutlet private weak var taskTitleText: UITextField!
+    @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet private weak var timeTitleText: UITextField!
+    @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet private weak var dateTitleText: UITextField!
     @IBOutlet private weak var noteText: UITextView!
     
+    @IBOutlet weak var noteTextLabel: UILabel!
+    @IBOutlet weak var cateLabel: UILabel!
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var noteCateButton: UIButton!
     @IBOutlet private weak var celeCateButton: UIButton!
@@ -22,8 +28,8 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
     
     private let datePickerButton = UIButton(type: .custom)
     private let timePickerButton = UIButton(type: .custom)
-    private let datePickerAlertController = UIAlertController(title: "Select date", message: nil, preferredStyle: .actionSheet)
-    private let timePickerAlertController = UIAlertController(title: "Select time", message: nil, preferredStyle: .actionSheet)
+    private let datePickerAlertController = UIAlertController(title: "Detail.DateAlertLabel".translated(), message: nil, preferredStyle: .actionSheet)
+    private let timePickerAlertController = UIAlertController(title: "Detail.TimeAlertLabel".translated(), message: nil, preferredStyle: .actionSheet)
     private let datePicker = UIDatePicker()
     private let timePicker = UIDatePicker()
     
@@ -36,31 +42,42 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
     override func setupUI() {
         super.setupUI()
         
-        setUpAppBar()
+        setUpLabel()
         
-        setUpNoteContent()
+        setUpAppBar()
         
         setUpDateTimePicker()
         
         setUpAlertController()
         
-        setTextHolderTextView()
-        
         setUpData()
-        
-        noteText.delegate = self
     }
     
-    private func setUpNoteContent(){
+    private func setUpLabel(){
+        screenLabel.text = "Detail.Title".translated()
+        dateLabel.text = "Detail.DateTitle".translated()
+        taskTitleLabel.text = "Detail.TaskTitle".translated()
+        timeLabel.text = "Detail.TimeTitle".translated()
+        cateLabel.text = "Detail.Category".translated()
+        noteTextLabel.text = "Detail.Notes".translated()
+        saveButton.setTitle("Detail.SaveButtonLabel".translated(), for: .normal)
         
-        noteText.text = "Notes"
-        noteText.textColor = UIColor.lightGray
+        taskTitleText.placeholder = "Detail.TaskTitle".translated()
+        dateTitleText.placeholder = "Detail.DateTitle".translated()
+        timeTitleText.placeholder = "Detail.TimeTitle".translated()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setTextHolderTextView()
     }
     
     private func setUpData(){
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.dateStyle = .medium
+//        dateFormatter.locale = Locale(identifier: LocalizeDefaultLanguage)
         taskTitleText.text = viewModel.note?.task_title
         dateTitleText.text = dateFormatter.string(from: dateFormatter.date(from: viewModel.note?.date ?? "") ?? Date())
         timeTitleText.text = viewModel.note?.time
@@ -162,6 +179,7 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
     @objc private func dateChanged() {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+//        formatter.locale = Locale(identifier: LocalizeDefaultLanguage)
         dateTitleText.text = formatter.string(from: datePicker.date)
     }
     
@@ -174,9 +192,9 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         saveButton.rx.tap.bind { [weak self] () in
             guard let self = self else { return }
             if viewModel.note != nil {
-                viewModel.updateCurrentNote(oldNote: prepareNewNote())
+                viewModel.handleSaveButton(taskTitle: taskTitleText.text!, category: cateSelected, content: noteText.text, date: dateTitleText.text!, time: timeTitleText.text!, isCreate: false)
             } else {
-                createNewNote()
+                viewModel.handleSaveButton(taskTitle: taskTitleText.text!, category: cateSelected, content: noteText.text, date: dateTitleText.text!, time: timeTitleText.text!, isCreate: true)
             }
         }.disposed(by: disposeBag)
         
@@ -216,50 +234,35 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
             celeCateButton.alpha = 1
         }
     }
-    
-    private func createNewNote() {
-        if taskTitleText.text?.isEmpty == true {
-            taskTitleText.attributedPlaceholder = NSAttributedString(
-                string: "Please enter task title!",
-                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
-            )
-        } else if dateTitleText.text?.isEmpty == true {
-            dateTitleText.attributedPlaceholder = NSAttributedString(
-                string: "Please enter date!",
-                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
-            )
-        } else {
-            let newNote = prepareNewNote()
-            self.viewModel.createNewNote(newNote: newNote)
-        }
-    }
-    
-    private func prepareNewNote () -> Note {
-        let time: String? = timeTitleText.text?.isEmpty == true ? nil : timeTitleText.text
-        let content : String? = noteText.text == "Notes" ? nil : noteText.text
-        let noteId : Int? = self.viewModel.note?.id == nil ? nil : self.viewModel.note?.id
-        let newNote: Note = Note(id: noteId, device_id: nil, task_title: taskTitleText.text!, category: cateSelected, content: content, status: false, date: dateTitleText.text!, time: time)
-        return newNote
-    }
 }
 
 extension NoteDetailViewController : UITextViewDelegate {
     private func setTextHolderTextView(){
-        noteText.text = "Notes"
-        noteText.textColor = UIColor.lightGray
+        noteText.delegate = self
+        if self.viewModel.note == nil {
+            noteText.text = "Detail.Notes".translated()
+            noteText.textColor = UIColor(named: "textHolderColor")
+        } else {
+            if self.viewModel.note!.content!.isEmpty {
+                noteText.text = "Detail.Notes".translated()
+                noteText.textColor = UIColor(named: "textHolderColor")
+            } else {
+                noteText.textColor = UIColor(named: "textColor")
+            }
+        }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "Notes" {
+        if textView.text == "Detail.Notes".translated() {
             textView.text = ""
-            textView.textColor = UIColor.black
         }
+        textView.textColor = UIColor(named: "textColor")
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Notes"
-            textView.textColor = UIColor.lightGray
+            textView.text = "Detail.Notes".translated()
+            textView.textColor = UIColor(named: "textHolderColor")
         }
     }
 }

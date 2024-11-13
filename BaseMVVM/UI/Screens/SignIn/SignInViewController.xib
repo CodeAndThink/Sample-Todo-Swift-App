@@ -28,7 +28,18 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nUC-ct-Fz5">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="771"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="rRr-lK-Eop">
+                                    <rect key="frame" x="142" y="70" width="130" height="130"/>
+                                </imageView>
+                            </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="rRr-lK-Eop" secondAttribute="trailing" constant="142" id="CiX-DI-TuA"/>
+                                <constraint firstItem="rRr-lK-Eop" firstAttribute="leading" secondItem="nUC-ct-Fz5" secondAttribute="leading" constant="142" id="WMI-7i-vXq"/>
+                                <constraint firstAttribute="bottom" secondItem="rRr-lK-Eop" secondAttribute="bottom" constant="571" id="WzK-jn-79a"/>
+                                <constraint firstItem="rRr-lK-Eop" firstAttribute="top" secondItem="nUC-ct-Fz5" secondAttribute="top" constant="70" id="eAV-wR-RVz"/>
+                            </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mOm-zK-Ytm">
                             <rect key="frame" x="10" y="278" width="394" height="172"/>
@@ -193,6 +204,7 @@
         </view>
     </objects>
     <resources>
+        <image name="Icon" width="512" height="512"/>
         <image name="lock.fill" catalog="system" width="111" height="128"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <namedColor name="backgroundColor">

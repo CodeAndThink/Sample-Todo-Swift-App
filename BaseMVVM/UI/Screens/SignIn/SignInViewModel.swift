@@ -44,8 +44,10 @@ class SignInViewModel: ViewModel {
                 AuthManager.shared.token = token
                 self.fetchProfile()
             }, onError: {[weak self] error in
-                self?.navigator.showAlert(title: "Common.Error".localized(),
-                                          message: "Login.Username.Password.Invalid".localized())
+                DispatchQueue.main.async {
+                    self?.navigator.showAlert(title: "Common.Error".localized(),
+                                              message: "Login.Username.Password.Invalid".localized())
+                }
             }).disposed(by: disposeBag)
     }
     
@@ -63,8 +65,11 @@ class SignInViewModel: ViewModel {
                     self.navigator.pushHome()
                 }
             }, onError: {[weak self] error in
-                self?.navigator.showAlert(title: "Common.Error".localized(),
-                                          message: "Login.Username.Password.Invalid".localized())
+                DispatchQueue.main.async {
+                    self?.navigator.showAlert(title: "Common.Error".localized(),
+                                              message: "Login.Username.Password.Invalid".localized())
+                }
+                
             }).disposed(by: disposeBag)
     }
     

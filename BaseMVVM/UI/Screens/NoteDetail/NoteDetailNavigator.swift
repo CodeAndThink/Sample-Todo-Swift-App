@@ -21,7 +21,7 @@ class NoteDetailNavigator : Navigator{
                 self.navigationController?.viewControllers.removeSubrange(0..<count - 1 )
             }
         }
-        navigationController?.pushViewController(viewController, animated: true)
+        navigationController?.popViewController(animated: true)
         CATransaction.commit()
     }
 }

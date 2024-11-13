@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
@@ -11,14 +11,21 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="NoteDetailViewController" customModule="BaseMVVM" customModuleProvider="target">
             <connections>
+                <outlet property="TaskTitleLabel" destination="4CL-e1-mCw" id="9aY-lq-eg9"/>
                 <outlet property="calendarCateButton" destination="P0q-SO-pht" id="8Fo-Gq-ZP9"/>
+                <outlet property="cateLabel" destination="o05-Yr-CR8" id="ec7-q1-adG"/>
                 <outlet property="celeCateButton" destination="rRm-vT-87L" id="KhY-PP-YTg"/>
                 <outlet property="closeButton" destination="1wd-fX-MBl" id="4Gd-nO-aVc"/>
+                <outlet property="dateLabel" destination="egZ-ti-l3h" id="YL0-1L-e0I"/>
                 <outlet property="dateTitleText" destination="tfG-M2-teI" id="i96-Ea-eeY"/>
                 <outlet property="noteCateButton" destination="J9E-Gh-LAs" id="pkA-1v-mQQ"/>
                 <outlet property="noteText" destination="fmV-oJ-Z1B" id="9Vr-45-BsX"/>
+                <outlet property="noteTextLabel" destination="Bwe-Ly-UYK" id="SAu-ea-Clj"/>
                 <outlet property="saveButton" destination="m67-Ie-81h" id="dVC-DQ-yoh"/>
+                <outlet property="screenLabel" destination="IVO-SG-kgG" id="sph-C5-SVs"/>
+                <outlet property="taskTitleLabel" destination="4CL-e1-mCw" id="dqr-Zg-UjB"/>
                 <outlet property="taskTitleText" destination="Tot-3D-iVB" id="6XB-aX-fbD"/>
+                <outlet property="timeLabel" destination="0R2-7S-42k" id="fyj-uj-yYB"/>
                 <outlet property="timeTitleText" destination="tgl-KY-eqM" id="Bwa-NN-EGy"/>
                 <outlet property="view" destination="bx7-Qe-Zel" id="5Na-mO-J2f"/>
             </connections>
@@ -326,7 +333,7 @@
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="mainColor">
-            <color red="0.29019607843137252" green="0.21568627450980393" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.28999999165534973" green="0.21600000560283661" blue="0.50199997425079346" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="textWhiteColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

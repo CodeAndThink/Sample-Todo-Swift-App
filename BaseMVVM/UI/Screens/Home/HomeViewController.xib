@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23506"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="UIMenu" message="Requires Xcode 11 or later." minToolsVersion="11.0" requiredIntegratedClassName="UICommandDiff"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,7 +14,8 @@
                 <outlet property="ToDoTableView" destination="zBZ-Hb-Q96" id="dA3-9A-zXE"/>
                 <outlet property="addNewTaskButton" destination="v2k-Za-YdG" id="Kbl-0T-J9p"/>
                 <outlet property="currentDateLabel" destination="98X-0k-RCJ" id="0d4-se-3Nm"/>
-                <outlet property="signoutButton" destination="VU6-el-aGL" id="ivH-RH-Nv1"/>
+                <outlet property="homeTitle" destination="AsA-2n-4N6" id="RbM-yI-4FD"/>
+                <outlet property="menuButton" destination="Xaf-02-WCs" id="DUh-oN-n4k"/>
                 <outlet property="view" destination="fe6-S4-OGt" id="Xau-bi-khP"/>
             </connections>
         </placeholder>
@@ -52,44 +53,35 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Todo List" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AsA-2n-4N6">
-                            <rect key="frame" x="111" y="96" width="180" height="36"/>
+                            <rect key="frame" x="114.66666666666669" y="96" width="171" height="36"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="180" id="UC9-1K-pQk"/>
                                 <constraint firstAttribute="height" constant="36" id="tY1-dJ-473"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="30"/>
                             <color key="textColor" name="textWhiteColor"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VU6-el-aGL">
-                            <rect key="frame" x="334" y="86" width="50" height="50"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="50" id="Itp-KG-gee"/>
-                                <constraint firstAttribute="width" constant="50" id="sae-bt-p0l"/>
-                            </constraints>
-                            <color key="tintColor" red="0.85490196080000003" green="0.0" blue="0.0" alpha="0.84705882349999995" colorSpace="calibratedRGB"/>
-                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                            <state key="normal" image="rectangle.portrait.and.arrow.forward" catalog="system">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                    <real key="value" value="25"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
+                        <button opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xaf-02-WCs">
+                            <rect key="frame" x="362" y="99" width="24" height="24"/>
+                            <menu key="menu" id="Crq-VI-Gwm">
+                                <children>
+                                    <command title="Logout" id="X68-JA-ueI"/>
+                                    <command title="Language change" id="lHp-Qe-AwK"/>
+                                </children>
+                            </menu>
+                            <state key="normal" image="ic_menu"/>
                         </button>
                     </subviews>
                     <color key="backgroundColor" name="mainColor"/>
                     <constraints>
                         <constraint firstItem="AsA-2n-4N6" firstAttribute="top" secondItem="ShD-lg-Jg2" secondAttribute="top" constant="96" id="16h-2y-R2I"/>
-                        <constraint firstAttribute="trailing" secondItem="VU6-el-aGL" secondAttribute="trailing" constant="18" id="GAu-bJ-DT3"/>
-                        <constraint firstAttribute="trailing" secondItem="AsA-2n-4N6" secondAttribute="trailing" constant="111" id="KvH-EC-f85"/>
+                        <constraint firstItem="AsA-2n-4N6" firstAttribute="leading" secondItem="ShD-lg-Jg2" secondAttribute="leading" constant="114.75" id="IUI-pM-xh9"/>
+                        <constraint firstAttribute="trailing" secondItem="Xaf-02-WCs" secondAttribute="trailing" constant="16" id="Kij-Y9-2e5"/>
                         <constraint firstAttribute="trailing" secondItem="98X-0k-RCJ" secondAttribute="trailing" constant="101.40000000000001" id="UOI-N1-bTf"/>
+                        <constraint firstItem="Xaf-02-WCs" firstAttribute="top" secondItem="ShD-lg-Jg2" secondAttribute="top" constant="99" id="Ubm-uv-HIC"/>
                         <constraint firstItem="AsA-2n-4N6" firstAttribute="top" secondItem="98X-0k-RCJ" secondAttribute="bottom" constant="8" id="fCr-yn-k56"/>
                         <constraint firstItem="98X-0k-RCJ" firstAttribute="top" secondItem="ShD-lg-Jg2" secondAttribute="top" constant="67.670000000000002" id="fVf-3P-Guk"/>
-                        <constraint firstItem="AsA-2n-4N6" firstAttribute="leading" secondItem="ShD-lg-Jg2" secondAttribute="leading" constant="111" id="r37-wm-yGX"/>
-                        <constraint firstItem="VU6-el-aGL" firstAttribute="top" secondItem="ShD-lg-Jg2" secondAttribute="top" constant="86" id="ryb-2l-ono"/>
+                        <constraint firstAttribute="trailing" secondItem="AsA-2n-4N6" secondAttribute="trailing" constant="116.25" id="wLX-8P-Tmm"/>
                         <constraint firstItem="98X-0k-RCJ" firstAttribute="leading" secondItem="ShD-lg-Jg2" secondAttribute="leading" constant="100.59999999999999" id="yoV-TC-37R"/>
                     </constraints>
                 </view>
@@ -135,12 +127,12 @@
         </view>
     </objects>
     <resources>
-        <image name="rectangle.portrait.and.arrow.forward" catalog="system" width="128" height="109"/>
+        <image name="ic_menu" width="24" height="24"/>
         <namedColor name="backgroundColor">
             <color red="0.94499999284744263" green="0.96100002527236938" blue="0.97600001096725464" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="mainColor">
-            <color red="0.29019607843137252" green="0.21568627450980393" blue="0.50196078431372548" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.28999999165534973" green="0.21600000560283661" blue="0.50199997425079346" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <namedColor name="tableBackgroundColor">
             <color red="0.94499999284744263" green="0.96100002527236938" blue="0.97600001096725464" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -148,8 +140,5 @@
         <namedColor name="textWhiteColor">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

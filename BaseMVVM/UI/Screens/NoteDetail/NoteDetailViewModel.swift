@@ -29,7 +29,32 @@ class NoteDetailViewModel : ViewModel {
         }
     }
     
-    func createNewNote(newNote : Note){
+    func handleSaveButton(taskTitle: String, category: Int, content: String, date: String, time: String, isCreate : Bool) {
+        if taskTitle.isEmpty == true {
+            DispatchQueue.main.async {
+                self.navigator.showAlert(title: "Error", message: "Please enter task title!")
+            }
+        }
+        else if date.isEmpty == true {
+            DispatchQueue.main.async {
+                self.navigator.showAlert(title: "Error", message: "Please enter date!")
+            }
+        } else {
+            let time: String? = time.isEmpty == true ? nil : time
+            let content : String? = content == "Notes".translated() ? nil : content
+            let noteId : Int? = self.note == nil ? nil : self.note?.id
+            let status : Bool = self.note == nil ? false : self.note!.status
+            let newNote: Note = Note(id: noteId, device_id: nil, task_title: taskTitle, category: category, content: content, status: status, date: date, time: time)
+            
+            if isCreate {
+                createNewNote(newNote: newNote)
+            } else {
+                updateCurrentNote(oldNote: newNote)
+            }
+        }
+    }
+    
+    private func createNewNote(newNote : Note){
         Application.shared.apiProvider
             .createNote(newNote: newNote)
             .trackActivity(ActivityIndicator())
@@ -44,12 +69,11 @@ class NoteDetailViewModel : ViewModel {
                         self?.navigator.showAlert(title: "Error",
                                                   message: error.localizedDescription)
                     }
-                    
                 }
             )
-            .disposed(by: disposeBag)    }
+        .disposed(by: disposeBag)    }
     
-    func updateCurrentNote(oldNote : Note) {
+    private func updateCurrentNote(oldNote : Note) {
         Application.shared.apiProvider
             .updateNote(newNote: oldNote)
             .trackActivity(ActivityIndicator())
@@ -59,7 +83,7 @@ class NoteDetailViewModel : ViewModel {
                     DispatchQueue.main.async {
                         self.navigator.pushHome()
                         self.navigator.showAlert(title: "Success",
-                                                  message: "Update success!")
+                                                 message: "Update success!")
                     }
                 },
                 onError: { [weak self] error in
@@ -67,11 +91,9 @@ class NoteDetailViewModel : ViewModel {
                         self?.navigator.showAlert(title: "Error",
                                                   message: error.localizedDescription)
                     }
-                    
                 }
             )
             .disposed(by: disposeBag)
-//        self.navigator.showAlert(title: "From Dev", message: "Upcomming!")
     }
     
     // MARK: Private Function

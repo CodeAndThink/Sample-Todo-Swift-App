@@ -27,7 +27,18 @@
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mWv-Qg-6vo">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="728"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Icon" translatesAutoresizingMaskIntoConstraints="NO" id="p7c-cr-vbK">
+                                    <rect key="frame" x="122" y="70" width="130" height="130"/>
+                                </imageView>
+                            </subviews>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="trailing" secondItem="p7c-cr-vbK" secondAttribute="trailing" constant="123" id="CAk-pw-RhO"/>
+                                <constraint firstAttribute="bottom" secondItem="p7c-cr-vbK" secondAttribute="bottom" constant="528" id="VJ0-HF-QBY"/>
+                                <constraint firstItem="p7c-cr-vbK" firstAttribute="leading" secondItem="mWv-Qg-6vo" secondAttribute="leading" constant="122" id="baV-y7-L2H"/>
+                                <constraint firstItem="p7c-cr-vbK" firstAttribute="top" secondItem="mWv-Qg-6vo" secondAttribute="top" constant="70" id="xyz-UQ-MUD"/>
+                            </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cjT-pf-Lgf">
                             <rect key="frame" x="10" y="278" width="355" height="172"/>
@@ -40,6 +51,7 @@
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kzn-DX-edh">
                                                     <rect key="frame" x="16" y="0.0" width="263" height="32"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -51,7 +63,7 @@
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" name="inputColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstItem="0Zb-3g-xHE" firstAttribute="top" secondItem="HjI-pS-4HY" secondAttribute="top" id="11G-8R-dEF"/>
                                                 <constraint firstItem="Kzn-DX-edh" firstAttribute="top" secondItem="HjI-pS-4HY" secondAttribute="top" id="7iK-WH-EIJ"/>
@@ -79,6 +91,7 @@
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8N8-nH-67X">
                                                     <rect key="frame" x="16" y="0.0" width="263" height="32"/>
+                                                    <color key="backgroundColor" name="backgroundColor"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                                                 </textField>
@@ -90,7 +103,7 @@
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
-                                            <color key="backgroundColor" name="inputColor"/>
+                                            <color key="backgroundColor" name="backgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="32" id="3dE-ka-Jto"/>
                                                 <constraint firstAttribute="trailing" secondItem="VCc-jp-PJX" secondAttribute="trailing" constant="16" id="6e7-aU-bt2"/>
@@ -184,13 +197,14 @@
         </view>
     </objects>
     <resources>
+        <image name="Icon" width="341.33334350585938" height="341.33334350585938"/>
         <image name="lock.fill" catalog="system" width="111" height="128"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
+        <namedColor name="backgroundColor">
+            <color red="0.94499999284744263" green="0.96100002527236938" blue="0.97600001096725464" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="borderColor">
             <color red="0.73199999332427979" green="0.74400001764297485" blue="0.75900000333786011" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="inputColor">
-            <color red="0.91399997472763062" green="0.94099998474121094" blue="0.99599999189376831" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="mainColor">
             <color red="0.28999999165534973" green="0.21600000560283661" blue="0.50199997425079346" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>

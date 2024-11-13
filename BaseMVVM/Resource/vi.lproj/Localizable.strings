@@ -24,7 +24,6 @@
 "Common.Success" = "Success";
 "Common.Error" = "Error";
 "Common.NoResults" = "No Results";
-
 /* Toast */
 "Toast.ConnectionBack.Message" = "Back online";
 "Toast.ConnectionLost.Message" = "No connection";
@@ -45,20 +44,20 @@
 "Login.Username.Password.Invalid" = "Tên đăng nhập hoặc mật khẩu chưa đúng";
 
 /* Home Screen */
-"Home.Title" = "My Todo List";
-"Home.NewTaskButtonTitle" = "Add New Task";
-"Home.SectionTitle" = "Completed";
-"Home.MenuButton.Logout" = "Log Out";
-"Home.MenuButton.Language" = "Language";
-"Home.MenuButton.Title" = "Choose an Option";
+"Home.Title" = "Danh sách";
+"Home.NewTaskButtonTitle" = "Thêm nhiệm vụ";
+"Home.SectionTitle" = "Hoàn thành";
+"Home.MenuButton.Logout" = "Đăng xuất";
+"Home.MenuButton.Language" = "Ngôn ngữ";
+"Home.MenuButton.Title" = "Tuỳ chọn";
 
 /* Detail Screen */
-"Detail.Title" = "Add New Task";
-"Detail.TaskTitle" = "Task Title";
-"Detail.DateTitle" = "Date";
-"Detail.TimeTitle" = "Time";
-"Detail.Category" = "Category";
-"Detail.Notes" = "Notes";
-"Detail.SaveButtonLabel" = "Save";
-"Detail.DateAlertLabel" = "Select date";
-"Detail.TimeAlertLabel" = "Select time";
+"Detail.Title" = "Thêm nhiệm vụ";
+"Detail.TaskTitle" = "Nhiệm vụ";
+"Detail.DateTitle" = "Ngày";
+"Detail.TimeTitle" = "Thời gian";
+"Detail.Category" = "Thể loại";
+"Detail.Notes" = "Nội dung";
+"Detail.SaveButtonLabel" = "Lưu";
+"Detail.DateAlertLabel" = "Chọn ngày";
+"Detail.TimeAlertLabel" = "Chọn giờ";

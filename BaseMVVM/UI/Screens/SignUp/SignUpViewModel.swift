@@ -58,8 +58,10 @@ class SignUpViewModel: ViewModel {
                     self?.navigator.pushSignIn()
                 }
             }, onError: {[weak self] error in
-                self?.navigator.showAlert(title: "Common.Error".localized(),
-                                          message: "Login.Username.Password.Invalid".localized())
+                DispatchQueue.main.async {
+                    self?.navigator.showAlert(title: "Common.Error".localized(),
+                                              message: "Login.Username.Password.Invalid".localized())
+                }
             }).disposed(by: disposeBag)
     }
     

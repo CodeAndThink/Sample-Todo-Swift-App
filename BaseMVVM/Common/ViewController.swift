@@ -11,6 +11,9 @@ import RxSwift
 import RxCocoa
 import MBProgressHUD
 
+let LocalizeUserDefaultKey = "LocalizeUserDefaultKey"
+var LocalizeDefaultLanguage = "en"
+
 class ViewController<V: ViewModel, N: Navigator>: UIViewController {
     var viewModel: V!
     var navigator: N!
@@ -154,5 +157,14 @@ class ViewController<V: ViewModel, N: Navigator>: UIViewController {
     
     @objc func rightButtonTapped(sender: UIBarButtonItem) {
         
+    }
+}
+
+extension String{
+    func translated()->String{
+        if let path = Bundle.main.path(forResource: LocalizeDefaultLanguage, ofType: "lproj"),let bundle = Bundle(path: path){
+            return NSLocalizedString(self,bundle: bundle, comment: "")
+        }
+        return ""
     }
 }
