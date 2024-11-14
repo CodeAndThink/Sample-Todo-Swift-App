@@ -94,7 +94,7 @@ class HomeViewModel: ViewModel {
                 },
                 onError: { [weak self] error in
                     DispatchQueue.main.async {
-                        self?.navigator.showAlert(title: "Error",
+                        self?.navigator.showAlert(title: "Common.Error".translated(),
                                                   message: error.localizedDescription)
                     }
                 }
@@ -118,7 +118,7 @@ class HomeViewModel: ViewModel {
                 },
                 onError: { [weak self] error in
                     DispatchQueue.main.async {
-                        self?.navigator.showAlert(title: "Error",
+                        self?.navigator.showAlert(title: "Common.Error".translated(),
                                                   message: error.localizedDescription)
                     }
                 }
@@ -138,7 +138,7 @@ class HomeViewModel: ViewModel {
                 },
                 onError: { [weak self] error in
                     DispatchQueue.main.async {
-                        self?.navigator.showAlert(title: "Error",
+                        self?.navigator.showAlert(title: "Common.Error".translated(),
                                                   message: error.localizedDescription)
                     }
                 }

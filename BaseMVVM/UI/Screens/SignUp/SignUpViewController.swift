@@ -21,7 +21,7 @@ class SignUpViewController: ViewController<SignUpViewModel, SignUpNavigator> {
     
     override func setupUI() {
         super.setupUI()
-        setTitle("Navigation.Title".localized(), subTitle: "Signup.SignupButtonTitle".translated())
+        setTitle("Navigation.Title".translated(), subTitle: "Signup.SignupButtonTitle".translated())
         showLeftButton()
         signUpButton.setTitle("Signup.SignupButtonTitle".translated(), for: .normal)
     }

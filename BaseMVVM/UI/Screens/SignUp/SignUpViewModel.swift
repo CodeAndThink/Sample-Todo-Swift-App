@@ -37,14 +37,14 @@ class SignUpViewModel: ViewModel {
     func signUp() {
         let userName = self.userName.value
         if userName.isEmpty {
-            navigator.showAlert(title: "Common.Error".localized(),
-                                message: "Login.Username.Empty".localized())
+            navigator.showAlert(title: "Common.Error".translated(),
+                                message: "Login.Username.Empty".translated())
             return
         }
         let password = self.password.value
         if password.isEmpty {
-            navigator.showAlert(title: "Common.Error".localized(),
-                                message: "Login.Password.Empty".localized())
+            navigator.showAlert(title: "Common.Error".translated(),
+                                message: "Login.Password.Empty".translated())
             return
         }
         
@@ -59,8 +59,8 @@ class SignUpViewModel: ViewModel {
                 }
             }, onError: {[weak self] error in
                 DispatchQueue.main.async {
-                    self?.navigator.showAlert(title: "Common.Error".localized(),
-                                              message: "Login.Username.Password.Invalid".localized())
+                    self?.navigator.showAlert(title: "Common.Error".translated(),
+                                              message: "Login.Username.Password.Invalid".translated())
                 }
             }).disposed(by: disposeBag)
     }

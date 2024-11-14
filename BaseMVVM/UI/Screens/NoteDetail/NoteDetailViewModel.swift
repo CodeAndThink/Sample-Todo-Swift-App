@@ -32,12 +32,12 @@ class NoteDetailViewModel : ViewModel {
     func handleSaveButton(taskTitle: String, category: Int, content: String, date: String, time: String, isCreate : Bool) {
         if taskTitle.isEmpty == true {
             DispatchQueue.main.async {
-                self.navigator.showAlert(title: "Error", message: "Please enter task title!")
+                self.navigator.showAlert(title: "Common.Error".translated(), message: "Detail.TaskTitle.Empty".translated())
             }
         }
         else if date.isEmpty == true {
             DispatchQueue.main.async {
-                self.navigator.showAlert(title: "Error", message: "Please enter date!")
+                self.navigator.showAlert(title: "Common.Error".translated(), message: "Detail.Date.Empty".translated())
             }
         } else {
             let time: String? = time.isEmpty == true ? nil : time
@@ -66,7 +66,7 @@ class NoteDetailViewModel : ViewModel {
                 },
                 onError: { [weak self] error in
                     DispatchQueue.main.async {
-                        self?.navigator.showAlert(title: "Error",
+                        self?.navigator.showAlert(title: "Common.Error".translated(),
                                                   message: error.localizedDescription)
                     }
                 }
@@ -82,13 +82,13 @@ class NoteDetailViewModel : ViewModel {
                     
                     DispatchQueue.main.async {
                         self.navigator.pushHome()
-                        self.navigator.showAlert(title: "Success",
-                                                 message: "Update success!")
+                        self.navigator.showAlert(title: "Common.Success".translated(),
+                                                 message: "Detail.Update.Success".translated())
                     }
                 },
                 onError: { [weak self] error in
                     DispatchQueue.main.async {
-                        self?.navigator.showAlert(title: "Error",
+                        self?.navigator.showAlert(title: "Common.Error".translated(),
                                                   message: error.localizedDescription)
                     }
                 }

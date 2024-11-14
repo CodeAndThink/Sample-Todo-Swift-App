@@ -40,9 +40,9 @@
 "Navigation.Title" = "Sample to do app";
 
 /* Login */
-"Login.Username.Empty" = "Chưa nhập tên đăng nhập";
-"Login.Password.Empty" = "Chưa nhập mặt khẩu";
-"Login.Username.Password.Invalid" = "Tên đăng nhập hoặc mật khẩu chưa đúng";
+"Login.Username.Empty" = "Username empty or invalid!";
+"Login.Password.Empty" = "Password empty or invalid!";
+"Login.Username.Password.Invalid" = "Username or password is invalid!";
 "Login.LoginButtonTitle" = "Login";
 "Login.SignupButtonTitle" = "Sign Up";
 "Login.ScreenTitle" = "Sign In";
@@ -68,3 +68,6 @@
 "Detail.SaveButtonLabel" = "Save";
 "Detail.DateAlertLabel" = "Select date";
 "Detail.TimeAlertLabel" = "Select time";
+"Detail.TaskTitle.Empty" = "Please enter task title!";
+"Detail.Date.Empty" = "Please enter date!";
+"Detail.Update.Success" = "Update success!";

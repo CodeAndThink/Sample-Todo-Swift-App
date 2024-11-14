@@ -56,7 +56,7 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
         let action2 = UIAction(title: "Home.MenuButton.Language".translated(), image: UIImage(named: "ic_lang"), handler: { [self] _ in
             self.changeLanguageAction()
         })
-        return UIMenu(title: "Choose an Option".translated(), children: [action1, action2])
+        return UIMenu(title: "Home.MenuButton.Title".translated(), children: [action1, action2])
     }
     
     private func changeLanguageAction () {

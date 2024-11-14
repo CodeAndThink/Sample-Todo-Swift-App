@@ -24,13 +24,13 @@ class SignInViewModel: ViewModel {
     // MARK: Public Function
     func signIn(userName: String, password: String) {
         if userName.isEmpty {
-            navigator.showAlert(title: "Common.Error".localized(),
-                                message: "Login.Username.Empty".localized())
+            navigator.showAlert(title: "Common.Error".translated(),
+                                message: "Login.Username.Empty".translated())
             return
         }
         if password.isEmpty {
-            navigator.showAlert(title: "Common.Error".localized(),
-                                message: "Login.Password.Empty".localized())
+            navigator.showAlert(title: "Common.Error".translated(),
+                                message: "Login.Password.Empty".translated())
             return
         }
         
@@ -45,8 +45,8 @@ class SignInViewModel: ViewModel {
                 self.fetchProfile()
             }, onError: {[weak self] error in
                 DispatchQueue.main.async {
-                    self?.navigator.showAlert(title: "Common.Error".localized(),
-                                              message: "Login.Username.Password.Invalid".localized())
+                    self?.navigator.showAlert(title: "Common.Error".translated(),
+                                              message: "Login.Username.Password.Invalid".translated())
                 }
             }).disposed(by: disposeBag)
     }
@@ -66,8 +66,8 @@ class SignInViewModel: ViewModel {
                 }
             }, onError: {[weak self] error in
                 DispatchQueue.main.async {
-                    self?.navigator.showAlert(title: "Common.Error".localized(),
-                                              message: "Login.Username.Password.Invalid".localized())
+                    self?.navigator.showAlert(title: "Common.Error".translated(),
+                                              message: "Login.Username.Password.Invalid".translated())
                 }
                 
             }).disposed(by: disposeBag)
