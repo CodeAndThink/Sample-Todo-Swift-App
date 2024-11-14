@@ -31,6 +31,10 @@ class SplashViewController: ViewController<SplashViewModel, SplashNavigator> {
     override func setupUI() {
         super.setupUI()
         clearNavigationBackground()
+        if let savedLanguage = UserDefaults.standard.string(forKey: LocalizeUserDefaultKey) {
+            LocalizeDefaultLanguage = savedLanguage
+        }
+        
         self.navigationItem.leftBarButtonItem = nil;
         self.navigationController?.navigationItem.hidesBackButton = true
         navigationItem.setHidesBackButton(true, animated: false)

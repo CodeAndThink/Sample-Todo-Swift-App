@@ -17,13 +17,13 @@ class SignUpViewController: ViewController<SignUpViewModel, SignUpNavigator> {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func setupUI() {
         super.setupUI()
-        setTitle("Navigation.Title".localized(), subTitle: "Sign Up")
+        setTitle("Navigation.Title".localized(), subTitle: "Signup.SignupButtonTitle".translated())
         showLeftButton()
+        signUpButton.setTitle("Signup.SignupButtonTitle".translated(), for: .normal)
     }
     
     override func setupListener() {

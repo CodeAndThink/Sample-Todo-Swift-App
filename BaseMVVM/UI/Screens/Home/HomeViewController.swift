@@ -18,7 +18,7 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
     @IBOutlet private weak var currentDateLabel: UILabel!
     @IBOutlet private weak var addNewTaskButton: UIButton!
     @IBOutlet private weak var ToDoTableView: UITableView!
-    @IBOutlet weak var homeTitle: UILabel!
+    @IBOutlet private weak var homeTitle: UILabel!
     
     @IBOutlet weak var menuButton: UIButton!
     
@@ -39,7 +39,7 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
     override func setupUI() {
         super.setupUI()
         
-        currentDateLabel.text = updateCurrentDate()
+        languageChanged()
         
         ToDoTableView.register(nibWithCellClass: ToDoTableViewCell.self)
         ToDoTableView.sectionHeaderTopPadding = 0
@@ -79,7 +79,6 @@ class HomeViewController: ViewController<HomeViewModel, HomeNavigator> {
         homeTitle.text = "Home.Title".translated()
         addNewTaskButton.setTitle("Home.NewTaskButtonTitle".translated(), for: .normal)
         menuButton.menu = createMenu()
-        
     }
     
     override func setupListener() {

@@ -17,13 +17,14 @@ class SignInViewController: ViewController<SignInViewModel, SignInNavigator> {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.setHidesBackButton(true, animated: false)
-        
     }
     
     override func setupUI() {
         super.setupUI()
         
-        setTitle("Navigation.Title".localized(), subTitle: "Sign In")
+        setTitle("Navigation.Title".localized(), subTitle: "Login.ScreenTitle".translated())
+        signUpButton.setTitle("Login.SignupButtonTitle".translated(), for: .normal)
+        loginButton.setTitle("Login.LoginButtonTitle".translated(), for: .normal)
     }
     
     override func setupListener() {

@@ -41,7 +41,7 @@ class NoteDetailViewModel : ViewModel {
             }
         } else {
             let time: String? = time.isEmpty == true ? nil : time
-            let content : String? = content == "Notes".translated() ? nil : content
+            let content : String? = content == "Detail.Notes".translated() ? nil : content
             let noteId : Int? = self.note == nil ? nil : self.note?.id
             let status : Bool = self.note == nil ? false : self.note!.status
             let newNote: Note = Note(id: noteId, device_id: nil, task_title: taskTitle, category: category, content: content, status: status, date: date, time: time)

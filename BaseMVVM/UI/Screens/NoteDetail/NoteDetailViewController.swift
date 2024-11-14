@@ -9,17 +9,17 @@ import Foundation
 import UIKit
 
 class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailNavigator> {
-    @IBOutlet weak var screenLabel: UILabel!
-    @IBOutlet weak var taskTitleLabel: UILabel!
+    @IBOutlet private weak var screenLabel: UILabel!
+    @IBOutlet private weak var taskTitleLabel: UILabel!
     @IBOutlet private weak var taskTitleText: UITextField!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet private weak var timeLabel: UILabel!
     @IBOutlet private weak var timeTitleText: UITextField!
-    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var dateTitleText: UITextField!
     @IBOutlet private weak var noteText: UITextView!
     
-    @IBOutlet weak var noteTextLabel: UILabel!
-    @IBOutlet weak var cateLabel: UILabel!
+    @IBOutlet private weak var noteTextLabel: UILabel!
+    @IBOutlet private weak var cateLabel: UILabel!
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var noteCateButton: UIButton!
     @IBOutlet private weak var celeCateButton: UIButton!
@@ -77,7 +77,6 @@ class NoteDetailViewController : ViewController<NoteDetailViewModel, NoteDetailN
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
         dateFormatter.dateStyle = .medium
-//        dateFormatter.locale = Locale(identifier: LocalizeDefaultLanguage)
         taskTitleText.text = viewModel.note?.task_title
         dateTitleText.text = dateFormatter.string(from: dateFormatter.date(from: viewModel.note?.date ?? "") ?? Date())
         timeTitleText.text = viewModel.note?.time

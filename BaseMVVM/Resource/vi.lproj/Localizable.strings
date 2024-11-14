@@ -42,6 +42,12 @@
 "Login.Username.Empty" = "Chưa nhập tên đăng nhập";
 "Login.Password.Empty" = "Chưa nhập mặt khẩu";
 "Login.Username.Password.Invalid" = "Tên đăng nhập hoặc mật khẩu chưa đúng";
+"Login.LoginButtonTitle" = "Đăng nhập";
+"Login.SignupButtonTitle" = "Đăng ký";
+"Login.ScreenTitle" = "Đăng nhập";
+
+/* Signup */
+"Signup.SignupButtonTitle" = "Đăng ký";
 
 /* Home Screen */
 "Home.Title" = "Danh sách";

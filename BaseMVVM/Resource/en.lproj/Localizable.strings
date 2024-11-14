@@ -43,6 +43,12 @@
 "Login.Username.Empty" = "Chưa nhập tên đăng nhập";
 "Login.Password.Empty" = "Chưa nhập mặt khẩu";
 "Login.Username.Password.Invalid" = "Tên đăng nhập hoặc mật khẩu chưa đúng";
+"Login.LoginButtonTitle" = "Login";
+"Login.SignupButtonTitle" = "Sign Up";
+"Login.ScreenTitle" = "Sign In";
+
+/* Signup */
+"Signup.SignupButtonTitle" = "Sign Up";
 
 /* Home Screen */
 "Home.Title" = "My Todo List";
